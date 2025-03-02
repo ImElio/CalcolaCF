@@ -259,6 +259,102 @@ header p {
 .cancella-tutto:hover {
     background: #5a6268;
 }
+
+/* Cookie */
+.cookiePopup {
+    width: 300px;
+    /* height: 220px; */  /* commenta l'altezza fissa per permettere al contenuto di adattarsi */
+    background-color: #fff;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 30px;
+    gap: 13px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.62);
+    z-index: 10000;
+    text-align: center;
+}
+
+#cookieSvg {
+    width: 50px;
+    display: block;
+    margin: 0 auto;
+}
+
+#cookieSvg g path {
+    fill: rgb(97, 81, 81);
+}
+
+.cookieHeading {
+    font-size: 1.2em;
+    font-weight: 800;
+    color: rgb(26,26,26);
+}
+
+.cookieDescription {
+    font-size: 0.8em;
+    font-weight: 600;
+    color: rgb(99,99,99);
+}
+
+.cookieDescription a {
+    color: rgb(59,130,246);
+    text-decoration: none;
+}
+
+.cookieDescription a:hover {
+    text-decoration: underline;
+}
+
+.buttonContainer {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.acceptButton {
+    width: 80px;
+    height: 30px;
+    background-color: #57ff57;
+    border: none;
+    color: rgb(241,241,241);
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px -1px #997ef3, 0 2px 4px -1px #997ef3;
+    transition: all 0.6s ease;
+}
+
+.declineButton {
+    width: 80px;
+    height: 30px;
+    background-color: #dadada;
+    border: none;
+    color: rgb(46,46,46);
+    cursor: pointer;
+    font-weight: 600;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px -1px #bebdbd, 0 2px 4px -1px #bebdbd;
+    transition: all 0.6s ease;
+}
+
+.acceptButton:hover {
+    background-color: #9173ff;
+    box-shadow: 0 10px 15px -3px #977ef3, 0 4px 6px -2px #977ef3;
+}
+
+.declineButton:hover {
+    background-color: #ebebeb;
+    box-shadow: 0 10px 15px -3px #bebdbd, 0 4px 6px -2px #bebdbd;
+}
+
+
+
 /* Footer */
 footer {
     text-align: center;
