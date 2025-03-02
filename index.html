@@ -74,5 +74,52 @@
                 </div>
             </div>
     </section>
+
+    <!--Informazioni-->
+    <section id="infoSection" class="info-section">
+        <h2>Codice Fiscale: cos'è e come si calcola</h2>
+        <p>
+          Il <strong>codice fiscale</strong> è un codice utilizzato ai fini fiscali ed amministrativi
+          per identificare in modo univoco i cittadini italiani.
+        </p>
+        <p>
+          È un codice alfanumerico di 16 caratteri, generato in conformità al DPR del 1973 da
+          un decreto del Presidente della Repubblica (Decreto 605 del 29/09/1973).
+        </p>
+        <p>
+          Per il calcolo del codice fiscale si procede come segue:
+          <br />- Cognome: prime tre consonanti (o vocali se necessario, oppure 'X')
+          <br />- Nome: prime tre consonanti (con la regola della 1ª, 3ª e 4ª se ci sono almeno 4 consonanti)
+          <br />- Data di nascita: ultime due cifre dell'anno, lettera del mese, giorno (più 40 se femmina)
+          <br />- Codice del comune: codice catastale ufficiale
+          <br />- Carattere di controllo: calcolato tramite una tabella pari/dispari e mod 26
+        </p>
+        <p>
+          Per maggiori dettagli e riferimenti puoi visitare la
+          <a href="https://it.wikipedia.org/wiki/Codice_fiscale" target="_blank">pagina Wikipedia sul Codice Fiscale</a>
+          o il sito dell'
+          <a href="https://www.agenziaentrate.gov.it/" target="_blank">Agenzia delle Entrate</a>.
+        </p>
+        <p>
+          <em
+            >Attenzione: il calcolo qui mostrato è conforme alle regole vigenti, ma fa sempre
+            riferimento alle banche dati ufficiali per la validazione finale.</em
+          >
+        </p>
+      </section>
+  
+      <!-- SEZIONE CRONOLOGIA -->
+      <section id="cronologiaSection" class="cronologia-section">
+        <h2>Cronologia Codici Fiscali Generati</h2>
+        <ul class="cronologia-lista" id="listaCronologia"></ul>
+        <button class="bottone cancella-tutto" id="pulsanteCancellaCronologia">Cancella Cronologia</button>
+      </section>
+  
+      <footer>
+        <p>&copy; 2025 Generatore Codice Fiscale - Tutti i diritti riservati</p>
+      </footer>
+    </div>
+
+    <script src="/assets/js/index.js"></script>
 </body>
 </html>
