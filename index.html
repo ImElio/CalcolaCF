@@ -1,125 +1,143 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generatore Codice Fiscale - SPA</title>
-    <link rel="stylesheet" href="assets/css/index.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Generatore Codice Fiscale - SPA</title>
+  <link rel="stylesheet" href="assets/css/index.css" />
 </head>
 <body>
 
-    <!--Caricamento-->
-    <div id="overlayCaricamento">
-        <div class="spinner"></div>
-    </div>
+  <!-- Overlay di caricamento -->
+  <div id="overlayCaricamento">
+    <div class="spinner"></div>
+  </div>
 
-    <div class="contenitore">
-        <nav>
-            <a href="#" data-sezione="home">Home</a>
-            <a href="#" data-sezione="info">Informazioni</a>
-            <a href="#" data-sezione="cronologia">Cronologia</a>
-        </nav>
-    </div>
-    
-    <!--HOME-->
+  <div class="contenitore">
+    <nav>
+      <a href="#" data-sezione="home">Home</a>
+      <a href="#" data-sezione="info">Informazioni</a>
+      <a href="#" data-sezione="cronologia">Cronologia</a>
+    </nav>
+
+    <!-- SEZIONE HOME -->
     <section id="homeSection" class="attiva">
-            <header>
-                <h1>Generatore Codice Fiscale</h1>
-                <p>Inserisci i tuoi dati per generare il codice fiscale in modo rapido, preciso e sicuro.</p>
-            </header>
+      <header>
+        <h1>Generatore Codice Fiscale</h1>
+        <p>Inserisci i tuoi dati per generare il codice fiscale in modo rapido, preciso e sicuro.</p>
+      </header>
 
-            <div class="form-section">
-                <h2>Genera il tuo Codice Fiscale</h2>
-                <form id="formCF">
-                    <div class="gruppo-form">
-                        <label for="cognome">Cognome</label>
-                        <input type="text" id="cognome" name="cognome" placeholder="Inserisci il cognome" required />
-                    </div>
+      <div class="form-section">
+        <h2>Genera il tuo Codice Fiscale</h2>
+        <form id="formCF">
+          <div class="gruppo-form">
+            <label for="cognome">Cognome</label>
+            <input type="text" id="cognome" name="cognome" placeholder="Inserisci il cognome" required />
+          </div>
 
-                    <div class="gruppo-form">
-                        <label for="nome">Nome</label>
-                        <input type="text" id="nome" name="Nome" placeholder="Inserisci il Nome" required />
-                    </div>
+          <div class="gruppo-form">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" placeholder="Inserisci il nome" required />
+          </div>
 
-                    <div class="gruppo-form">
-                        <label for="dataNascita">Data di Nascita</label>
-                        <input type="date" id="dataNascita" name="dataNascita" required />
-                    </div>
+          <div class="gruppo-form">
+            <label for="dataNascita">Data di Nascita</label>
+            <input type="date" id="dataNascita" name="dataNascita" required />
+          </div>
 
-                    <div class="gruppo-form">
-                        <span>Sesso:</span>
-                        <label>
-                            <input type="radio" name="sesso" value="M" required /> Maschio
-                        </label>
-                        <label>
-                            <input type="radio" name="sesso" value="F" required /> Femmina
-                        </label>
-                    </div>
+          <div class="gruppo-form radio-gruppo">
+            <span>Sesso:</span>
+            <label>
+              <input type="radio" name="sesso" value="M" required /> Maschio
+            </label>
+            <label>
+              <input type="radio" name="sesso" value="F" required /> Femmina
+            </label>
+          </div>
 
-                    <div class="gruppo-form">
-                        <label for="comune">Comune di Nascita</label>
-                        <select id="comune" name="comune" required>
-                            <option value="">Seleziona il Comune</option>
-                        </select>
-                    </div>
+          <div class="gruppo-form">
+            <label for="comune">Comune di Nascita</label>
+            <select id="comune" name="comune" required>
+              <option value="">Seleziona il comune</option>
+            </select>
+          </div>
 
-                    <button type="submit" class="bottone">Genera Codice Fiscale</button>
-                </form>
-            </div>
+          <button type="submit" class="bottone">Genera Codice Fiscale</button>
+        </form>
+      </div>
 
-            <div class="risultato-section">
-                <h2>Codice Fiscale Generato</h2>
-                <div class="risultato-card" id="risultatoCF">
-                    <P id="outputCF"></P>
-                </div>
-            </div>
+      <div class="risultato-section">
+        <h2>Codice Fiscale Generato</h2>
+        <div class="risultato-card" id="risultatoCF">
+          <p id="outputCF"></p>
+        </div>
+      </div>
+
+      <div class="validate-section">
+        <h2>Verifica Codice Fiscale</h2>
+        <form id="formVerifica">
+          <div class="gruppo-form">
+            <label for="inputCF">Inserisci Codice Fiscale</label>
+            <input
+              type="text"
+              id="inputCF"
+              name="inputCF"
+              maxlength="16"
+              placeholder="Es. RSSMRA80A01H501"
+              required
+            />
+          </div>
+          <button type="submit" class="bottone">Verifica</button>
+        </form>
+        <div id="risultatoVerifica"></div>
+      </div>
     </section>
 
-    <!--Informazioni-->
+    <!-- SEZIONE INFORMAZIONI -->
     <section id="infoSection" class="info-section">
-        <h2>Codice Fiscale: cos'è e come si calcola</h2>
-        <p>
-          Il <strong>codice fiscale</strong> è un codice utilizzato ai fini fiscali ed amministrativi
-          per identificare in modo univoco i cittadini italiani.
-        </p>
-        <p>
-          È un codice alfanumerico di 16 caratteri, generato in conformità al DPR del 1973 da
-          un decreto del Presidente della Repubblica (Decreto 605 del 29/09/1973).
-        </p>
-        <p>
-          Per il calcolo del codice fiscale si procede come segue:
-          <br />- Cognome: prime tre consonanti (o vocali se necessario, oppure 'X')
-          <br />- Nome: prime tre consonanti (con la regola della 1ª, 3ª e 4ª se ci sono almeno 4 consonanti)
-          <br />- Data di nascita: ultime due cifre dell'anno, lettera del mese, giorno (più 40 se femmina)
-          <br />- Codice del comune: codice catastale ufficiale
-          <br />- Carattere di controllo: calcolato tramite una tabella pari/dispari e mod 26
-        </p>
-        <p>
-          Per maggiori dettagli e riferimenti puoi visitare la
-          <a href="https://it.wikipedia.org/wiki/Codice_fiscale" target="_blank">pagina Wikipedia sul Codice Fiscale</a>
-          o il sito dell'
-          <a href="https://www.agenziaentrate.gov.it/" target="_blank">Agenzia delle Entrate</a>.
-        </p>
-        <p>
-          <em
-            >Attenzione: il calcolo qui mostrato è conforme alle regole vigenti, ma fa sempre
-            riferimento alle banche dati ufficiali per la validazione finale.</em
-          >
-        </p>
-      </section>
-  
-      <!-- SEZIONE CRONOLOGIA -->
-      <section id="cronologiaSection" class="cronologia-section">
-        <h2>Cronologia Codici Fiscali Generati</h2>
-        <ul class="cronologia-lista" id="listaCronologia"></ul>
-        <button class="bottone cancella-tutto" id="pulsanteCancellaCronologia">Cancella Cronologia</button>
-      </section>
-  
-      <footer>
-        <p>&copy; 2025 Generatore Codice Fiscale - Tutti i diritti riservati</p>
-      </footer>
-    </div>
+      <h2>Codice Fiscale: cos'è e come si calcola</h2>
+      <p>
+        Il <strong>codice fiscale</strong> è un codice utilizzato ai fini fiscali ed amministrativi
+        per identificare in modo univoco i cittadini italiani.
+      </p>
+      <p>
+        È un codice alfanumerico di 16 caratteri, generato in conformità al DPR del 1973 da
+        un decreto del Presidente della Repubblica (Decreto 605 del 29/09/1973).
+      </p>
+      <p>
+        Per il calcolo del codice fiscale si procede come segue:
+        <br />- Cognome: prime tre consonanti (o vocali se necessario, oppure 'X')
+        <br />- Nome: prime tre consonanti (con la regola della 1ª, 3ª e 4ª se ci sono almeno 4 consonanti)
+        <br />- Data di nascita: ultime due cifre dell'anno, lettera del mese, giorno (più 40 se femmina)
+        <br />- Codice del comune: codice catastale ufficiale
+        <br />- Carattere di controllo: calcolato tramite una tabella pari/dispari e mod 26
+      </p>
+      <p>
+        Per maggiori dettagli e riferimenti puoi visitare la
+        <a href="https://it.wikipedia.org/wiki/Codice_fiscale" target="_blank">pagina Wikipedia sul Codice Fiscale</a>
+        o il sito dell'
+        <a href="https://www.agenziaentrate.gov.it/" target="_blank">Agenzia delle Entrate</a>.
+      </p>
+      <p>
+        <em
+          >Attenzione: il calcolo qui mostrato è conforme alle regole vigenti, ma fa sempre
+          riferimento alle banche dati ufficiali per la validazione finale.</em
+        >
+      </p>
+    </section>
 
-    <script src="/assets/js/index.js"></script>
+    <!-- SEZIONE CRONOLOGIA -->
+    <section id="cronologiaSection" class="cronologia-section">
+      <h2>Cronologia Codici Fiscali Generati</h2>
+      <ul class="cronologia-lista" id="listaCronologia"></ul>
+      <button class="bottone cancella-tutto" id="pulsanteCancellaCronologia">Cancella Cronologia</button>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 Generatore Codice Fiscale - Tutti i diritti riservati</p>
+    </footer>
+  </div>
+
+  <script src="assets/js/index.js"></script>
 </body>
 </html>
