@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generatore Codice Fiscale - SPA</title>
+    <link rel="stylesheet" href="assets/css/index.css">
+</head>
+<body>
+
+    <!--Caricamento-->
+    <div id="overlayCaricamento">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="contenitore">
+        <nav>
+            <a href="#" data-sezione="home">Home</a>
+            <a href="#" data-sezione="info">Informazioni</a>
+            <a href="#" data-sezione="cronologia">Cronologia</a>
+        </nav>
+    </div>
+    
+    <!--HOME-->
+    <section id="homeSection" class="attiva">
+            <header>
+                <h1>Generatore Codice Fiscale</h1>
+                <p>Inserisci i tuoi dati per generare il codice fiscale in modo rapido, preciso e sicuro.</p>
+            </header>
+
+            <div class="form-section">
+                <h2>Genera il tuo Codice Fiscale</h2>
+                <form id="formCF">
+                    <div class="gruppo-form">
+                        <label for="cognome">Cognome</label>
+                        <input type="text" id="cognome" name="cognome" placeholder="Inserisci il cognome" required />
+                    </div>
+
+                    <div class="gruppo-form">
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nome" name="Nome" placeholder="Inserisci il Nome" required />
+                    </div>
+
+                    <div class="gruppo-form">
+                        <label for="dataNascita">Data di Nascita</label>
+                        <input type="date" id="dataNascita" name="dataNascita" required />
+                    </div>
+
+                    <div class="gruppo-form">
+                        <span>Sesso:</span>
+                        <label>
+                            <input type="radio" name="sesso" value="M" required /> Maschio
+                        </label>
+                        <label>
+                            <input type="radio" name="sesso" value="F" required /> Femmina
+                        </label>
+                    </div>
+
+                    <div class="gruppo-form">
+                        <label for="comune">Comune di Nascita</label>
+                        <select id="comune" name="comune" required>
+                            <option value="">Seleziona il Comune</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="bottone">Genera Codice Fiscale</button>
+                </form>
+            </div>
+
+            <div class="risultato-section">
+                <h2>Codice Fiscale Generato</h2>
+                <div class="risultato-card" id="risultatoCF">
+                    <P id="outputCF"></P>
+                </div>
+            </div>
+    </section>
+</body>
+</html>
