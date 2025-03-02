@@ -1,7 +1,7 @@
 /****************************/
 /* GESTIONE NAVBAR
 /****************************/
-const collegamentiNav = document.querySelector("nav a");
+const collegamentiNav = document.querySelectorAll("nav a");
 const sezioneHome = document.getElementById("homeSection");
 const sezioneInfo = document.getElementById("infoSection");
 const sezioneCronologia = document.getElementById("cronologiaSection");
@@ -36,7 +36,6 @@ window.addEventListener("load", () => {
         document.getElementById("overlayCaricamento").classList.add("nascosto");
     }, 1000);
 });
-
 /****************************/
 /* Caricamento COMUNI => comuni.json
 /****************************/
@@ -60,7 +59,7 @@ const formCF = document.getElementById("formCF");
 const outputCF = document.getElementById("outputCF");
 const risultatoCF = document.getElementById("risultatoCF");
 
-formCF.addEventListener("sumbit", (evento) => {
+formCF.addEventListener("submit", (evento) => { 
     evento.preventDefault();
 
     // Overlay Caricamento
@@ -69,8 +68,8 @@ formCF.addEventListener("sumbit", (evento) => {
     // Salvo i dati dal form
     const valoreCognome = document.getElementById("cognome").value.trim().toUpperCase();
     const valoreNome = document.getElementById("nome").value.trim().toUpperCase();
-    const valoreDataNascita = document.getElementById("dataNscita").value;
-    const sessoSelezionato = document.getElementById('input[name="sesso":checked]');
+    const valoreDataNascita = document.getElementById("dataNascita").value;
+    const sessoSelezionato = document.querySelector('input[name="sesso"]:checked'); 
     const codiceComune = selectComune.value;
 
     if (!sessoSelezionato || !codiceComune) {
@@ -104,8 +103,11 @@ formCF.addEventListener("sumbit", (evento) => {
 
         // Scroll risultato
         risultatoCF.scrollIntoView({ behavior: "smooth" });
+
+        timerOverlay = null;
     }, 800);
 });
+
 
 /************************************************************
  * FUNZIONE SVUOTA CAMPI
@@ -113,7 +115,7 @@ formCF.addEventListener("sumbit", (evento) => {
 function svuotaCampiForm() {
     document.getElementById("cognome").value = "";
     document.getElementById("nome").value = "";
-    document.getElementById("dataNascinta").value = "";
+    document.getElementById("dataNascita").value = "";
     document.querySelectorAll('input[name="sesso"]').forEach((el) => (el.checked = false));
     selectComune.value = "";
     // Rimuovo effetto fade-in
