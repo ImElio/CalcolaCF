@@ -9,6 +9,7 @@ const sezioneCronologia = document.getElementById("cronologiaSection");
 collegamentiNav.forEach((link) => {
     link.addEventListener("click", (evento) => {
         evento.preventDefault();
+        const sezioneDaMostrare = link.getAttribute("data-sezione");
 
         // Rimuovo classe "ATTIVA" da tutte le sezioni
         sezioneHome.classList.remove("attiva");
@@ -36,6 +37,7 @@ window.addEventListener("load", () => {
         document.getElementById("overlayCaricamento").classList.add("nascosto");
     }, 1000);
 });
+
 /****************************/
 /* Caricamento COMUNI => comuni.json
 /****************************/
@@ -89,7 +91,6 @@ formCF.addEventListener("submit", (evento) => {
             codiceComune
         );
         outputCF.textContent = codiceFiscaleGenerato;
-        risultatoCF.classList.add("fade-in");
 
         // Salvo in cronologia usando il localstorage
         // Possibile introduzione indexedDB
@@ -104,10 +105,8 @@ formCF.addEventListener("submit", (evento) => {
         // Scroll risultato
         risultatoCF.scrollIntoView({ behavior: "smooth" });
 
-        timerOverlay = null;
     }, 800);
 });
-
 
 /************************************************************
  * FUNZIONE SVUOTA CAMPI
@@ -118,8 +117,6 @@ function svuotaCampiForm() {
     document.getElementById("dataNascita").value = "";
     document.querySelectorAll('input[name="sesso"]').forEach((el) => (el.checked = false));
     selectComune.value = "";
-    // Rimuovo effetto fade-in
-    risultatoCF.classList.remove("fade-in")
 }
 
 /************************************************************
@@ -152,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
   caricaCronologia();
 });
 
-function salvaInCronologia(cf) {
+function salvaCronologia(cf) {
   let cronologia = JSON.parse(localStorage.getItem("cfHistory")) || [];
   cronologia.push({
     codice: cf,
@@ -189,7 +186,6 @@ function mostraCronologia(cronologia) {
     `;
     listaCronologia.appendChild(li);
   });
-  // Gestione click su "Elimina"
   document.querySelectorAll(".cronologia-lista button").forEach((bottone) => {
     bottone.addEventListener("click", () => {
       const idx = bottone.getAttribute("data-indice");
@@ -360,3 +356,19 @@ function validaCodiceFiscale(cf) {
   const caratterePrevisto = calcolaCarattereControllo(primi15);
   return caratterePrevisto === cf[15];
 }
+
+/************************************************************
+ * POPUP COPIA
+ ************************************************************/
+const popupCopiato = document.getElementById("popupCopiato");
+["mouseover","click"].forEach((evt) => {
+  risultatoCF.addEventListener(evt, () => {
+    if (outputCF.textContent.trim() !== "" && outputCF.textContent.trim() !== "Il Codice Fiscale comparirà qui.") {
+      navigator.clipboard.writeText(outputCF.textContent.trim());
+      popupCopiato.classList.add("visibile");
+      setTimeout(() => {
+        popupCopiato.classList.remove("visibile");
+      }, 1000);
+    }
+  });
+});
