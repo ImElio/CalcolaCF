@@ -1,127 +1,120 @@
 /****************************/
-/* GESTIONE NAVBAR
+/* GESTIONE NAVBAR */
 /****************************/
 const collegamentiNav = document.querySelectorAll("nav a");
 const sezioneHome = document.getElementById("homeSection");
+const sezioneVerifica = document.getElementById("verificaCFSection");
 const sezioneInfo = document.getElementById("infoSection");
 const sezioneCronologia = document.getElementById("cronologiaSection");
 
 collegamentiNav.forEach((link) => {
-    link.addEventListener("click", (evento) => {
-        evento.preventDefault();
-        const sezioneDaMostrare = link.getAttribute("data-sezione");
+  link.addEventListener("click", (evento) => {
+    evento.preventDefault();
+    const sezioneDaMostrare = link.getAttribute("data-sezione");
 
-        // Rimuovo classe "ATTIVA" da tutte le sezioni
-        sezioneHome.classList.remove("attiva");
-        sezioneInfo.classList.remove("attiva");
-        sezioneCronologia.classList.remove("attiva");
+    // Rimuovo la classe "attiva" da tutte le sezioni
+    sezioneHome.classList.remove("attiva");
+    sezioneVerifica.classList.remove("attiva");
+    sezioneInfo.classList.remove("attiva");
+    sezioneCronologia.classList.remove("attiva");
 
-        if (sezioneDaMostrare === "home") {
-            sezioneHome.classList.add("attiva");
-            sezioneHome.scrollIntoView({ behavior: "smooth" });
-        } else if (sezioneDaMostrare === "info") {
-            sezioneInfo.classList.add("attiva");
-            sezioneInfo.scrollIntoView({ behavior: "smooth" });
-        } else if (sezioneDaMostrare === "cronologia") {
-            sezioneCronologia.classList.add("attiva");
-            sezioneCronologia.scrollIntoView({ behavior: "smooth" });
-        }
-    });
+    if (sezioneDaMostrare === "home") {
+      sezioneHome.classList.add("attiva");
+      sezioneHome.scrollIntoView({ behavior: "smooth" });
+    } else if (sezioneDaMostrare === "verificaCF") {
+      sezioneVerifica.classList.add("attiva");
+      sezioneVerifica.scrollIntoView({ behavior: "smooth" });
+    } else if (sezioneDaMostrare === "info") {
+      sezioneInfo.classList.add("attiva");
+      sezioneInfo.scrollIntoView({ behavior: "smooth" });
+    } else if (sezioneDaMostrare === "cronologia") {
+      sezioneCronologia.classList.add("attiva");
+      sezioneCronologia.scrollIntoView({ behavior: "smooth" });
+    }
+  });
 });
 
 /****************************/
-/* OVERLAY CARICAMENTO
+/* OVERLAY CARICAMENTO */
 /****************************/
 window.addEventListener("load", () => {
-    setTimeout(() => {
-        document.getElementById("overlayCaricamento").classList.add("nascosto");
-    }, 1000);
+  setTimeout(() => {
+    document.getElementById("overlayCaricamento").classList.add("nascosto");
+  }, 1000);
 });
 
 /****************************/
-/* Caricamento COMUNI => comuni.json
+/* Caricamento COMUNI (comuni.json) */
 /****************************/
 const selectComune = document.getElementById("comune");
 fetch("comuni/comuni.json")
-.then((risposta) => risposta.json())
-.then((datiComuni) => {
+  .then((risposta) => risposta.json())
+  .then((datiComuni) => {
     datiComuni.forEach((comune) => {
-        const opzione = document.createElement("option");
-        opzione.value = comune.codice;
-        opzione.textContent = comune.nome;
-        selectComune.appendChild(opzione);
+      const opzione = document.createElement("option");
+      opzione.value = comune.codice;
+      opzione.textContent = comune.nome;
+      selectComune.appendChild(opzione);
     });
-})
-.catch((errore) => console.error("Comuni non caricati:", errore));
+  })
+  .catch((errore) => console.error("Comuni non caricati:", errore));
 
-/************************************************************
- * GENERAZIONE CODICE FISCALE
- ************************************************************/
+/****************************/
+/* GENERAZIONE CODICE FISCALE */
+/****************************/
 const formCF = document.getElementById("formCF");
 const outputCF = document.getElementById("outputCF");
 const risultatoCF = document.getElementById("risultatoCF");
 
-formCF.addEventListener("submit", (evento) => { 
-    evento.preventDefault();
+formCF.addEventListener("submit", (evento) => {
+  evento.preventDefault();
 
-    // Overlay Caricamento
-    document.getElementById("overlayCaricamento").classList.remove("nascosto");
+  // Mostro l'overlay di caricamento
+  document.getElementById("overlayCaricamento").classList.remove("nascosto");
 
-    // Salvo i dati dal form
-    const valoreCognome = document.getElementById("cognome").value.trim().toUpperCase();
-    const valoreNome = document.getElementById("nome").value.trim().toUpperCase();
-    const valoreDataNascita = document.getElementById("dataNascita").value;
-    const sessoSelezionato = document.querySelector('input[name="sesso"]:checked'); 
-    const codiceComune = selectComune.value;
+  const valoreCognome = document.getElementById("cognome").value.trim().toUpperCase();
+  const valoreNome = document.getElementById("nome").value.trim().toUpperCase();
+  const valoreDataNascita = document.getElementById("dataNascita").value;
+  const sessoSelezionato = document.querySelector('input[name="sesso"]:checked');
+  const codiceComune = selectComune.value;
 
-    if (!sessoSelezionato || !codiceComune) {
-        alert("Compila tutti i campi e seleziona un comune.");
-        document.getElementById("overlayCaricamento").classList.add("nascosto");
-        return;
-    }
-    const valoreSesso = sessoSelezionato.value;
+  if (!sessoSelezionato || !codiceComune) {
+    alert("Compila tutti i campi e seleziona un comune.");
+    document.getElementById("overlayCaricamento").classList.add("nascosto");
+    return;
+  }
+  const valoreSesso = sessoSelezionato.value;
 
-    // Simulo un caricamento 
-    setTimeout(() => {
-        const codiceFiscaleGenerato = generaCodiceFiscale(
-            valoreCognome,
-            valoreNome,
-            valoreDataNascita,
-            valoreSesso,
-            codiceComune
-        );
-        outputCF.textContent = codiceFiscaleGenerato;
-
-        // Salvo in cronologia usando il localstorage
-        // Possibile introduzione indexedDB
-        salvaCronologia(codiceFiscaleGenerato);
-
-        // Svuoto i campi
-        svuotaCampiForm();
-        
-        // Dopo la generazione nascondo lo spinner
-        document.getElementById("overlayCaricamento").classList.add("nascosto");
-
-        // Scroll risultato
-        risultatoCF.scrollIntoView({ behavior: "smooth" });
-
-    }, 800);
+  setTimeout(() => {
+    const codiceFiscaleGenerato = generaCodiceFiscale(
+      valoreCognome,
+      valoreNome,
+      valoreDataNascita,
+      valoreSesso,
+      codiceComune
+    );
+    outputCF.textContent = codiceFiscaleGenerato;
+    salvaCronologia(codiceFiscaleGenerato);
+    svuotaCampiForm();
+    document.getElementById("overlayCaricamento").classList.add("nascosto");
+    risultatoCF.scrollIntoView({ behavior: "smooth" });
+  }, 800);
 });
 
-/************************************************************
- * FUNZIONE SVUOTA CAMPI
- ************************************************************/
+/****************************/
+/* SVUOTA CAMPI DEL FORM */
+/****************************/
 function svuotaCampiForm() {
-    document.getElementById("cognome").value = "";
-    document.getElementById("nome").value = "";
-    document.getElementById("dataNascita").value = "";
-    document.querySelectorAll('input[name="sesso"]').forEach((el) => (el.checked = false));
-    selectComune.value = "";
+  document.getElementById("cognome").value = "";
+  document.getElementById("nome").value = "";
+  document.getElementById("dataNascita").value = "";
+  document.querySelectorAll('input[name="sesso"]').forEach((el) => (el.checked = false));
+  selectComune.value = "";
 }
 
-/************************************************************
- * VERIFICA CODICE FISCALE
- ************************************************************/
+/****************************/
+/* VERIFICA CODICE FISCALE */
+/****************************/
 const formVerifica = document.getElementById("formVerifica");
 const risultatoVerifica = document.getElementById("risultatoVerifica");
 
@@ -132,16 +125,31 @@ formVerifica.addEventListener("submit", (evento) => {
   if (valido) {
     risultatoVerifica.textContent = "Il codice fiscale è valido.";
     risultatoVerifica.style.color = "green";
+    document.getElementById("cardIdentita").style.display = "block";
+    document.getElementById("cfDisplay").textContent = cfInserito;
+
+    const dati = decodificaCF(cfInserito);
+    if (dati) {
+      document.getElementById("cognomeID").textContent = dati.cognomeCode;
+      document.getElementById("nomeID").textContent = dati.nomeCode;
+      let giorno = String(dati.dataNascita.getDate()).padStart(2, "0");
+      let mese = String(dati.dataNascita.getMonth() + 1).padStart(2, "0");
+      let anno = dati.dataNascita.getFullYear();
+      document.getElementById("dataNascitaID").textContent = giorno + "/" + mese + "/" + anno;
+      document.getElementById("luogoID").textContent = dati.comuneCode;
+      document.getElementById("sessoID").textContent = dati.sesso;
+    }
   } else {
     risultatoVerifica.textContent = "Il codice fiscale NON è valido.";
     risultatoVerifica.style.color = "red";
+    document.getElementById("cardIdentita").style.display = "none";
   }
   risultatoVerifica.scrollIntoView({ behavior: "smooth" });
 });
 
-/************************************************************
- * CRONOLOGIA (LocalStorage)
- ************************************************************/
+/****************************/
+/* CRONOLOGIA (LocalStorage) */
+/****************************/
 const listaCronologia = document.getElementById("listaCronologia");
 const pulsanteCancellaCronologia = document.getElementById("pulsanteCancellaCronologia");
 
@@ -194,12 +202,13 @@ function mostraCronologia(cronologia) {
   });
 }
 
-/************************************************************
- * FUNZIONI PER CALCOLO CODICE FISCALE
- ************************************************************/
+/****************************/
+/* FUNZIONI PER CALCOLO CODICE FISCALE */
+/****************************/
 function estraiConsonanti(testo) {
   return testo.replace(/[^BCDFGHJKLMNPQRSTVWXYZ]/g, "");
 }
+
 function estraiVocali(testo) {
   return testo.replace(/[^AEIOU]/g, "");
 }
@@ -232,108 +241,37 @@ function elaboraNome(nome) {
 function elaboraData(dataNascita, sesso) {
   const data = new Date(dataNascita);
   const anno = data.getFullYear().toString().slice(-2);
-  const mese = data.getMonth(); // 0=Gennaio, 11=Dicembre
+  const mese = data.getMonth();
   const giorno = data.getDate();
-
   const codiciMese = ["A", "B", "C", "D", "E", "H", "L", "M", "P", "R", "S", "T"];
   const codiceMese = codiciMese[mese];
-
   let giornoCalcolato = giorno;
   if (sesso === "F") {
     giornoCalcolato += 40;
   }
   giornoCalcolato = giornoCalcolato < 10 ? "0" + giornoCalcolato : "" + giornoCalcolato;
-
   return anno + codiceMese + giornoCalcolato;
 }
 
 function calcolaCarattereControllo(primi15) {
   const valoriDispari = {
-    0: 1,
-    1: 0,
-    2: 5,
-    3: 7,
-    4: 9,
-    5: 13,
-    6: 15,
-    7: 17,
-    8: 19,
-    9: 21,
-    A: 1,
-    B: 0,
-    C: 5,
-    D: 7,
-    E: 9,
-    F: 13,
-    G: 15,
-    H: 17,
-    I: 19,
-    J: 21,
-    K: 2,
-    L: 4,
-    M: 18,
-    N: 20,
-    O: 11,
-    P: 3,
-    Q: 6,
-    R: 8,
-    S: 12,
-    T: 14,
-    U: 16,
-    V: 10,
-    W: 22,
-    X: 25,
-    Y: 24,
-    Z: 23,
+    0: 1, 1: 0, 2: 5, 3: 7, 4: 9, 5: 13, 6: 15, 7: 17, 8: 19, 9: 21,
+    A: 1, B: 0, C: 5, D: 7, E: 9, F: 13, G: 15, H: 17, I: 19, J: 21,
+    K: 2, L: 4, M: 18, N: 20, O: 11, P: 3, Q: 6, R: 8, S: 12, T: 14,
+    U: 16, V: 10, W: 22, X: 25, Y: 24, Z: 23
   };
   const valoriPari = {
-    0: 0,
-    1: 1,
-    2: 2,
-    3: 3,
-    4: 4,
-    5: 5,
-    6: 6,
-    7: 7,
-    8: 8,
-    9: 9,
-    A: 0,
-    B: 1,
-    C: 2,
-    D: 3,
-    E: 4,
-    F: 5,
-    G: 6,
-    H: 7,
-    I: 8,
-    J: 9,
-    K: 10,
-    L: 11,
-    M: 12,
-    N: 13,
-    O: 14,
-    P: 15,
-    Q: 16,
-    R: 17,
-    S: 18,
-    T: 19,
-    U: 20,
-    V: 21,
-    W: 22,
-    X: 23,
-    Y: 24,
-    Z: 25,
+    0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9,
+    A: 0, B: 1, C: 2, D: 3, E: 4, F: 5, G: 6, H: 7, I: 8, J: 9,
+    K: 10, L: 11, M: 12, N: 13, O: 14, P: 15, Q: 16, R: 17, S: 18, T: 19,
+    U: 20, V: 21, W: 22, X: 23, Y: 24, Z: 25
   };
-
   let somma = 0;
   for (let i = 0; i < primi15.length; i++) {
     const carattere = primi15[i];
-    // i è 0-based, ma la posizione è (i+1)
     if ((i + 1) % 2 !== 0) {
-      // dispari -> valoriDispari
       somma += valoriDispari[carattere];
     } else {
-      // pari -> valoriPari
       somma += valoriPari[carattere];
     }
   }
@@ -357,13 +295,16 @@ function validaCodiceFiscale(cf) {
   return caratterePrevisto === cf[15];
 }
 
-/************************************************************
- * POPUP COPIA
- ************************************************************/
+/****************************/
+/* POPUP COPIA */
+/****************************/
 const popupCopiato = document.getElementById("popupCopiato");
-["mouseover","click"].forEach((evt) => {
+["mouseover", "click"].forEach((evt) => {
   risultatoCF.addEventListener(evt, () => {
-    if (outputCF.textContent.trim() !== "" && outputCF.textContent.trim() !== "Il Codice Fiscale comparirà qui.") {
+    if (
+      outputCF.textContent.trim() !== "" &&
+      outputCF.textContent.trim() !== "Il Codice Fiscale comparirà qui."
+    ) {
       navigator.clipboard.writeText(outputCF.textContent.trim());
       popupCopiato.classList.add("visibile");
       setTimeout(() => {
@@ -372,3 +313,38 @@ const popupCopiato = document.getElementById("popupCopiato");
     }
   });
 });
+
+/****************************/
+/* Funzione Verifica */
+/****************************/
+function decodificaCF(cf) {
+  if (cf.length !== 16) return null;
+  const cognomeCode = cf.substring(0, 3);
+  const nomeCode = cf.substring(3, 6);
+  const anno2Cifre = parseInt(cf.substring(6, 8), 10);
+  const meseLettera = cf.charAt(8);
+  const giornoVal = parseInt(cf.substring(9, 11), 10);
+  const comuneCode = cf.substring(11, 15);
+  const carattereControllo = cf.charAt(15); 
+  let sesso = "M";
+  let giorno = giornoVal;
+  if (giornoVal > 31) {
+    sesso = "F";
+    giorno = giornoVal - 40;
+  }
+  const mappaMesi = { A: 0, B: 1, C: 2, D: 3, E: 4, H: 5, L: 6, M: 7, P: 8, R: 9, S: 10, T: 11 };
+  const meseNum = mappaMesi[meseLettera];
+  let annoCompleto = anno2Cifre + 1900;
+  if (anno2Cifre < 30) {
+    annoCompleto = anno2Cifre + 2000;
+  }
+  const dataNascita = new Date(annoCompleto, meseNum, giorno);
+  return {
+    cognomeCode,
+    nomeCode,
+    dataNascita,
+    sesso,
+    comuneCode,
+    carattereControllo,
+  };
+}

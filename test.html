@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Carta d'Identità Elettronica - Fac Simile</title>
+  <style>
+    /* RESET DI BASE */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #f0f0f0;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    /* CONTENITORE PRINCIPALE (dimensioni simili a una carta fisica, ma più grandi per demo) */
+    .card {
+      width: 550px;
+      height: 350px;
+      position: relative;
+      margin: 0 auto;
+      background: linear-gradient(to bottom right, #e1e8f0 0%, #ffffff 80%);
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    /* HEADER: testo “REPUBBLICA ITALIANA”, “MINISTERO DELL’INTERNO”, etc. */
+    .header {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      right: 20px;
+      color: #004080;
+      text-shadow: 0 0 1px rgba(0,0,0,0.2);
+    }
+    .header h1 {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+    }
+    .header h2 {
+      font-size: 0.95rem;
+      font-weight: normal;
+      margin-bottom: 5px;
+    }
+    .header h3 {
+      font-size: 0.85rem;
+      font-weight: normal;
+      color: #333;
+    }
+
+    /* STEMMA / LOGO in alto a destra (opzionale) */
+    .emblem {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      width: 60px;
+      opacity: 0.2; /* leggermente trasparente per simulare un ologramma */
+    }
+
+    /* SEZIONE DATI PRINCIPALI */
+    .info-section {
+      position: absolute;
+      top: 80px;
+      left: 20px;
+      right: 20px;
+      bottom: 60px; /* lascia spazio per la fascia in basso */
+      display: flex;
+    }
+
+    /* FOTO TESSERA A SINISTRA */
+    .photo-container {
+      flex: 0 0 120px;
+      height: 160px;
+      background-color: #ddd;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+    }
+    .photo-container img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    /* DATI TESTUALI A DESTRA */
+    .data-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      font-size: 0.9rem;
+      color: #333;
+    }
+
+    /* Riga singola di dati */
+    .data-row {
+      margin-bottom: 4px;
+      display: flex;
+      line-height: 1.2;
+    }
+    .data-row label {
+      width: 120px; /* Larghezza fissa per le etichette */
+      font-weight: bold;
+      color: #004080;
+    }
+
+    /* SIMULAZIONE SESSO (cerchio in alto a destra) */
+    .gender {
+      position: absolute;
+      top: 80px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      border: 2px solid #004080;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #004080;
+      font-size: 1rem;
+      background-color: rgba(255,255,255,0.7);
+    }
+
+    /* FASCIA INFERIORE (date, firme, numero, etc.) */
+    .footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background-color: rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .footer .footer-data {
+      font-size: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-right: 30px;
+    }
+
+    /* MRZ (zona leggibile dalla macchina) */
+    .mrz {
+      margin-left: auto; /* Spinge la MRZ a destra */
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <!-- Eventuale “stemma” semitrasparente -->
+  <img class="emblem" src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Emblem_of_Italy.svg" alt="Stemma Italia">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>REPUBBLICA ITALIANA</h1>
+    <h2>MINISTERO DELL'INTERNO</h2>
+    <h3>CARTA DI IDENTITÀ / IDENTITY CARD</h3>
+  </div>
+
+  <!-- Cerchio per indicare il sesso -->
+  <div class="gender">M</div>
+
+  <!-- SEZIONE DATI (foto + dati testuali) -->
+  <div class="info-section">
+    <!-- Foto tessera -->
+    <div class="photo-container">
+      <!-- Sostituisci l'URL con la tua immagine -->
+      <img src="https://via.placeholder.com/120x160" alt="Foto ID">
+    </div>
+
+    <!-- Dati anagrafici -->
+    <div class="data-container">
+      <div class="data-row">
+        <label>Cognome:</label>
+        <div>ROSSI</div>
+      </div>
+      <div class="data-row">
+        <label>Nome:</label>
+        <div>MARIO</div>
+      </div>
+      <div class="data-row">
+        <label>Data di nascita:</label>
+        <div>01/01/1980</div>
+      </div>
+      <div class="data-row">
+        <label>Luogo di nascita:</label>
+        <div>ROMA (RM)</div>
+      </div>
+      <div class="data-row">
+        <label>Cittadinanza:</label>
+        <div>Italiana</div>
+      </div>
+      <div class="data-row">
+        <label>Data di rilascio:</label>
+        <div>20/06/2020</div>
+      </div>
+      <div class="data-row">
+        <label>Data di scadenza:</label>
+        <div>20/06/2030</div>
+      </div>
+      <div class="data-row">
+        <label>Statura:</label>
+        <div>180</div>
+      </div>
+      <div class="data-row">
+        <label>Firma:</label>
+        <div>(Firma del titolare)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASCIA INFERIORE -->
+  <div class="footer">
+    <!-- Numero documento, ecc. -->
+    <div class="footer-data">
+      <strong>Doc. n°:</strong>
+      CA15740GM
+    </div>
+    <div class="footer-data">
+      <strong>Emesso da:</strong>
+      Comune di Roma
+    </div>
+    <!-- MRZ -->
+    <div class="mrz">
+      IDITA&lt;CA15740GM&lt;ROSSI&lt;MARIO&lt;&lt;1980ITA2030
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
