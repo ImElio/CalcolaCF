@@ -3,25 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-  <!-- Meta tag standard -->
   <meta name="description" content="Genera il tuo Codice Fiscale in modo rapido, preciso e sicuro. Verifica il tuo codice e ottieni informazioni dettagliate sul calcolo."/>
   <meta name="keywords" content="codice fiscale, generatore, verifica, calcolo, italia, fisco, comune, data di nascita"/>
   <meta name="author" content="Elio"/>
-
-  <!-- Open Graph / Facebook -->
   <meta property="og:title" content="Generatore Codice Fiscale" />
   <meta property="og:description" content="Inserisci i tuoi dati per generare in modo rapido, preciso e sicuro il tuo Codice Fiscale." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://calcola-cf.vercel.app/" /> 
   <meta property="og:image" content="https://calcola-cf.vercel.app/assets/images/anteprima.jpg" />
-
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Generatore Codice Fiscale" />
   <meta name="twitter:description" content="Inserisci i tuoi dati per generare in modo rapido, preciso e sicuro il tuo Codice Fiscale." />
   <meta name="twitter:image" content="https://calcola-cf.vercel.app/assets/images/anteprima.jpg" />
-
   <title>Calcolo Codice Fiscale</title>
   <link rel="stylesheet" href="assets/css/index.css" />
   <link
@@ -33,22 +26,27 @@
   />
 </head>
 <body>
-
-  <!-- Overlay di caricamento -->
-  <!-- Overlay di caricamento -->
   <div id="overlayCaricamento">
     <div class="spinner"></div>
   </div>
-
   <div class="contenitore">
     <nav>
-      <a href="#" data-sezione="home">Home</a>
-      <a href="#" data-sezione="verificaCF">Verifica Codice Fiscale</a>
-      <a href="#" data-sezione="info">Informazioni</a>
-      <a href="#" data-sezione="cronologia">Cronologia</a>
+      <div class="hamburger-menu" tabindex="0">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="nav-links">
+        <a href="#" data-sezione="home">Home</a>
+        <a href="#" data-sezione="verificaCF">Verifica Codice Fiscale</a>
+        <a href="#" data-sezione="info">Informazioni</a>
+        <a href="#" data-sezione="cronologia">Cronologia</a>
+      </div>
+      <button id="toggleDarkMode" tabindex="0">
+        <i class="fas fa-moon"></i>
+      </button>
     </nav>
 
-    <!-- SEZIONE HOME -->
     <section id="homeSection" class="attiva">
       <header>
         <h1>Calcolo Codice Fiscale</h1>
@@ -57,33 +55,35 @@
 
       <div class="form-section">
         <h2>Genera il tuo Codice Fiscale</h2>
-        <form id="formCF">
+        <form id="formCF" novalidate>
           <div class="gruppo-form">
             <label for="cognome">Cognome</label>
-            <input type="text" id="cognome" name="cognome" placeholder="Inserisci il cognome" required />
+            <input type="text" id="cognome" name="cognome" placeholder="Es. Rossi" required aria-required="true" />
           </div>
           <div class="gruppo-form">
             <label for="nome">Nome</label>
-            <input type="text" id="nome" name="nome" placeholder="Inserisci il nome" required />
+            <input type="text" id="nome" name="nome" placeholder="Es. Marco" required aria-required="true" />
           </div>
           <div class="gruppo-form">
             <label for="dataNascita">Data di Nascita</label>
-            <input type="date" id="dataNascita" name="dataNascita" required />
+            <input type="date" id="dataNascita" name="dataNascita" required aria-required="true" />
           </div>
           <div class="gruppo-form radio-gruppo">
             <span>Sesso:</span>
-            <label>
-              <input type="radio" name="sesso" value="M" required /> Maschio
+            <label class="radio-label">
+              <input type="radio" name="sesso" value="M" required aria-required="true" />
+              <i class="fa-solid fa-mars icona-mars"></i>
             </label>
-            <label>
-              <input type="radio" name="sesso" value="F" required /> Femmina
+            <label class="radio-label">
+              <input type="radio" name="sesso" value="F" required aria-required="true" />
+              <i class="fa-solid fa-venus icona-venus"></i>
             </label>
           </div>
-          <div class="gruppo-form">
-            <label for="comune">Comune di Nascita</label>
-            <select id="comune" name="comune" required>
-              <option value="">Seleziona il comune</option>
-            </select>
+          <div class="gruppo-form comune-container">
+            <label for="comuneSearch">Comune di Nascita</label>
+            <input type="text" id="comuneSearch" placeholder="Scrivi il comune" required aria-required="true" />
+            <div class="suggestions" id="comuneSuggestions"></div>
+            <input type="hidden" id="comuneCode" name="comune" />
           </div>
           <button type="submit" class="bottone">Genera Codice Fiscale</button>
         </form>
@@ -91,20 +91,19 @@
 
       <div class="risultato-section">
         <h2>Codice Fiscale Generato</h2>
-        <div class="risultato-card" id="risultatoCF">
+        <div class="risultato-card" id="risultatoCF" tabindex="0">
           <p id="outputCF">Il Codice Fiscale comparirà qui.</p>
           <div id="popupCopiato">Codice copiato!</div>
         </div>
       </div>
     </section>
 
-    <!-- SEZIONE VERIFICA CF -->
     <section id="verificaCFSection">
       <h2>Verifica Codice Fiscale</h2>
-      <form id="formVerifica">
+      <form id="formVerifica" novalidate>
         <div class="gruppo-form">
           <label for="inputCF">Inserisci Codice Fiscale</label>
-          <input type="text" id="inputCF" name="inputCF" maxlength="16" placeholder="Es. RSSMRA80A01H501" required />
+          <input type="text" id="inputCF" name="inputCF" maxlength="16" placeholder="Es. RSSMRA80A01H501" required aria-required="true" />
         </div>
         <button type="submit" class="bottone">Verifica</button>
       </form>
@@ -135,39 +134,16 @@
       </div>
     </section>
 
-    <!-- SEZIONE INFORMAZIONI -->
     <section id="infoSection">
       <h2>Codice Fiscale: cos'è e come si calcola</h2>
-      <p>
-        Il <strong>codice fiscale</strong> è un codice utilizzato ai fini fiscali ed amministrativi
-        per identificare in modo univoco i cittadini italiani.
-      </p>
-      <p>
-        È un codice alfanumerico di 16 caratteri, generato in conformità al DPR del 1973 da
-        un decreto del Presidente della Repubblica (Decreto 605 del 29/09/1973).
-      </p>
-      <p>
-        Per il calcolo del codice fiscale si procede come segue:
-        <br />- Cognome: prime tre consonanti (o vocali se necessario, oppure 'X')
-        <br />- Nome: prime tre consonanti (con la regola della 1ª, 3ª e 4ª se ci sono almeno 4 consonanti)
-        <br />- Data di nascita: ultime due cifre dell'anno, lettera del mese, giorno (più 40 se femmina)
-        <br />- Codice del comune: codice catastale ufficiale
-        <br />- Carattere di controllo: calcolato tramite una tabella pari/dispari e mod 26
-      </p>
-      <p>
-        Per maggiori dettagli e riferimenti puoi visitare la
-        <a href="https://it.wikipedia.org/wiki/Codice_fiscale" target="_blank">pagina Wikipedia sul Codice Fiscale</a>
-        o il sito dell'
-        <a href="https://www.agenziaentrate.gov.it/" target="_blank">Agenzia delle Entrate</a>.
-      </p>
-      <p>
-        <em>
-          Attenzione: il calcolo qui mostrato è conforme alle regole vigenti, ma fa sempre riferimento alle banche dati ufficiali per la validazione finale.
-        </em>
-      </p>
+      <p>Il <strong>codice fiscale</strong> è un codice utilizzato ai fini fiscali ed amministrativi per identificare in modo univoco i cittadini italiani.</p>
+      <p>È un codice alfanumerico di 16 caratteri, generato in conformità al DPR del 1973 da un decreto del Presidente della Repubblica (Decreto 605 del 29/09/1973).</p>
+      <p>Per il calcolo del codice fiscale si procede come segue:<br>- Cognome: prime tre consonanti (o vocali se necessario, oppure 'X')<br>- Nome: prime tre consonanti (con la regola della 1ª, 3ª e 4ª se ci sono almeno 4 consonanti)<br>- Data di nascita: ultime due cifre dell'anno, lettera del mese, giorno (più 40 se femmina)<br>- Codice del comune: codice catastale ufficiale<br>- Carattere di controllo: calcolato tramite una tabella pari/dispari e mod 26</p>
+      <p>Per maggiori dettagli e riferimenti puoi visitare la <a href="https://it.wikipedia.org/wiki/Codice_fiscale" target="_blank">pagina Wikipedia sul Codice Fiscale</a> o il sito dell' <a href="https://www.agenziaentrate.gov.it/" target="_blank">Agenzia delle Entrate</a>.</p>
+      <p><em>Attenzione: il calcolo qui mostrato è conforme alle regole vigenti, ma fa sempre riferimento alle banche dati ufficiali per la validazione finale.</em></p>
+      <p><em>Leggi la nostra <a href="pages/cookies/cookie.html" target="_blank">Cookie Policy</a></em></p>
     </section>
 
-    <!-- SEZIONE CRONOLOGIA -->
     <section id="cronologiaSection">
       <h2>Cronologia Codici Fiscali Generati</h2>
       <ul class="cronologia-lista" id="listaCronologia"></ul>
@@ -202,10 +178,7 @@
         </g>
       </svg>
       <p class="cookieHeading">Utilizziamo i cookie.</p>
-      <p class="cookieDescription">
-        Utilizziamo i cookie per garantirti la migliore esperienza sul nostro sito. <br>
-        <a href="pages/cookies/cookie.html">Leggi le nostre politiche sui cookie</a>.
-      </p>
+      <p class="cookieDescription">Utilizziamo i cookie per garantirti la migliore esperienza sul nostro sito. <br><a href="pages/cookies/cookie.html">Leggi le nostre politiche sui cookie</a>.</p>
       <div class="buttonContainer">
         <button class="acceptButton">Accetta</button>
         <button class="declineButton">Rifiuta</button>
@@ -220,7 +193,6 @@
       <p>&copy; 2025 Generatore Codice Fiscale - Tutti i diritti riservati</p>
     </footer>
   </div>
-
   <script src="assets/js/index.js"></script>
   <script src="assets/js/cookie.js"></script>
 </body>
