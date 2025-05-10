@@ -2,8 +2,6 @@
 
 Benvenuto nel **CalcolaCF**, uno strumento web che calcola il **Codice Fiscale italiano** in modo rapido e preciso.
 
-![GitHub Issues](https://issue-metrics-badge.vercel.app/api/issues-badge?repo=ImElio%2FCalcolaCF&theme=light)
-
 ## 🚀 Funzionalità
 
 ✅ Calcolo automatico del Codice Fiscale secondo le regole ufficiali 🏛️  
